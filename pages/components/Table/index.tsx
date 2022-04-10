@@ -10,20 +10,6 @@ interface TableProps {
 const Table = () => {
     const { state, dispatch } = useContext(Context);
 
-    const handleAdd = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-
-        const newTask = {
-            id: Date.now(),
-            name: 'New',
-            priority: 'urgent',
-
-        };
-
-        dispatch({ type: ActionTypes.addTask, payload: newTask });
-    };
-
-
     const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number) => {
         e.preventDefault();
 
@@ -36,16 +22,6 @@ const Table = () => {
             dispatch({ type: ActionTypes.updateTask, payload: { ...task, [e.target.name]: e.target.value } });
         };
     }
-
-    const PRODUCTS = [
-        { priority: 'Urgent', name: 'Football' },
-        { priority: 'Regular', name: 'Baseball' },
-        { priority: 'Trivial', name: 'Basketball' },
-        { priority: 'Trivial', name: 'iPod Touch' },
-        { priority: 'Urgent', name: 'iPhone 5' },
-        { priority: 'Regular', name: 'Nexus 7' }
-    ];
-
 
 
     const FilterableProductTable = ({ products }: any) => {
@@ -124,7 +100,7 @@ const Table = () => {
             rows.push(
                 <ProductRow
                     product={product}
-                    key={product.name} />
+                    key={product.id} />
             );
         });
 
@@ -147,7 +123,7 @@ const Table = () => {
 
     return (
         <>
-            <FilterableProductTable products={PRODUCTS}></FilterableProductTable>
+            <FilterableProductTable products={state}></FilterableProductTable>
         </>
     );
 };

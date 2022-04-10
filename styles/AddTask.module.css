@@ -1,0 +1,43 @@
+.inputAdd {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+  }
+  
+
+  .selectPriority {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+  }
+
+  .flexRow{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+      gap: 12px;
+  }
+
+
+
+.flexColumOne{
+    display: flex;
+    flex-direction: column;
+    flex:1;
+}
+  
+.flexColumTwo{
+    display: flex;
+    flex-direction: column;
+    flex:2;
+}
+
+.addButton{
+    width: 5%;
+    padding: 11px 8px;
+    margin: 30px 0;
+    box-sizing: border-box;
+}
