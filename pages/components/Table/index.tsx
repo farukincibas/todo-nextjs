@@ -66,6 +66,7 @@ const Table = () => {
                 <ProductTable
                     products={products}
                     filterText={filterText}
+                    priorityFilter={priorityFilter}
                 />
             </div>
         );
@@ -140,11 +141,14 @@ const Table = () => {
     }
 
 
-    const ProductTable = ({ products, filterText }: any) => {
+    const ProductTable = ({ products, filterText, priorityFilter }: any) => {
         const rows: any = [];
 
         products.forEach((product: any) => {
             if (product.name.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
+                return;
+            }
+            if (product.priority.toLowerCase().indexOf(priorityFilter.toLowerCase()) === -1 && priorityFilter !== 'all') {
                 return;
             }
 
