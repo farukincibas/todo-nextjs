@@ -1,10 +1,12 @@
+
 export interface Tasks {
     id: number;
     name: string;
     priority: string;
 }
 
-export const initialState: Tasks[] = JSON.parse(localStorage.getItem('tasks') || '[]');
+//export const initialState: Tasks[] = JSON.parse(localStorage.getItem('tasks') || '[]');
+export const initialState: Tasks[] = JSON.parse('[]');
 
 export enum ActionTypes {
     addTask,

@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import styles from '../styles/Home.module.css'
 import ContextProvider from './store/ContextProvider';
+import Table from './components/Table';
 
 const Home: NextPage = () => {
   return (
@@ -8,7 +9,7 @@ const Home: NextPage = () => {
       <div className={styles.container}>
 
         <main className={styles.main}>
-          <span>hello world</span>
+          <Table></Table>
         </main>
 
         <footer className={styles.footer}>
