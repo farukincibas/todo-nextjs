@@ -29,3 +29,28 @@
     background-color: #f1f1f1;
   }
   
+  .width60 {
+    width: 60%;
+  }
+
+  .flexRowPopup {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-left: 30%;
+  }
+
+  
+  .flexColumnPopup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+  }
+
+  .paddingElements {
+    width: 100%;
+    padding: 4px 6px;
+    box-sizing: border-box;
+  }
+

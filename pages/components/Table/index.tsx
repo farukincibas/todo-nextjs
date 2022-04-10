@@ -2,26 +2,48 @@ import React, { useContext, useState } from 'react';
 import { Tasks, ActionTypes } from '../../store/reducer';
 import { Context } from '../../store/context';
 import styles from '../../../styles/Table.module.css';
+import { RiDeleteBin5Fill, RiEdit2Fill } from 'react-icons/ri';
+import CustomPopup from "../Popup";
 
-interface TableProps {
-    task: Tasks;
-}
 
 const Table = () => {
     const { state, dispatch } = useContext(Context);
+    const [visibility, setVisibility] = useState(false);
+    const [visibilityDelete, setVisibilityDelete] = useState(false);
+    const [visibilityUpdate, setVisibilityUpdate] = useState(false);
+    const [id, setId] = useState(0);
+    const [name, setName] = useState('');
+    const [priority, setPriority] = useState('');
+
+    const popupCloseHandler = () => {
+        setVisibility(false);
+        setVisibilityDelete(false);
+        setVisibilityUpdate(false);
+    };
 
     const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number) => {
         e.preventDefault();
-
         dispatch({ type: ActionTypes.deleteTask, payload: id });
+        popupCloseHandler();
     };
 
 
-    const TableChange = ({ task }: TableProps) => {
-        const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            dispatch({ type: ActionTypes.updateTask, payload: { ...task, [e.target.name]: e.target.value } });
+
+    const handleChange = ({ id, name, priority }: Tasks) => {
+        const updateTask = {
+            id: id,
+            name: name,
+            priority: priority,
         };
-    }
+
+        if (name.length > 0 && priority.length > 0) {
+            dispatch({ type: ActionTypes.updateTask, payload: { ...updateTask } });
+            popupCloseHandler();
+        }
+        else { alert("if you want to update it! Please provide name and urgent info..."); }
+       
+    };
+
 
 
     const FilterableProductTable = ({ products }: any) => {
@@ -84,6 +106,15 @@ const Table = () => {
             <tr>
                 <td>{product.name}</td>
                 <td><span style={priorityStyle}>{product.priority}</span></td>
+                <td>
+                    <button onClick={() => { setVisibility(true), setId(product.id); setVisibilityUpdate(true); }}>
+                        <RiEdit2Fill />
+                    </button>
+                    {" "}
+                    <button onClick={() => { setVisibility(true), setId(product.id); setVisibilityDelete(true); }}>
+                        <RiDeleteBin5Fill />
+                    </button>
+                </td>
             </tr>
         );
     }
@@ -110,8 +141,9 @@ const Table = () => {
             <table className={styles.taskTable}>
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th className={styles.width60}>Name</th>
                         <th>Priority</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>
@@ -124,6 +156,50 @@ const Table = () => {
     return (
         <>
             <FilterableProductTable products={state}></FilterableProductTable>
+            <CustomPopup
+                onClose={popupCloseHandler}
+                show={visibility}
+            >
+                {visibilityDelete && (
+                    <>
+                        <h1>Are you sure want to delete it!</h1>
+                        <div className={styles.flexRowPopup}>
+                            <button onClick={popupCloseHandler}>Cancel</button>
+                            <button onClick={(e) => handleDelete(e, id)}>Approve</button>
+                        </div>
+                    </>
+                )}
+
+                {visibilityUpdate && (
+                    <>
+                        <h1>Job Edit</h1>
+                        <div className={styles.flexColumnPopup}>
+                            <label>Job Name</label>
+                            <input
+                                className={styles.paddingElements}
+                                type="text"
+                                placeholder="Name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+
+                            <label>Job Priority</label>
+                            <select onChange={(e) => setPriority(e.target.value)} className={styles.paddingElements} id="standard-select">
+                                <option disabled selected value="0">Choose</option>
+                                <option value="Urgent">Urgent</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Trivial">Trivial</option>
+                            </select>
+                            <div className={styles.flexRowPopup}>
+                                <button onClick={popupCloseHandler}>Cancel</button>
+                                <button onClick={(e) => handleChange({ id, name, priority })}>Save</button>
+                            </div>
+                        </div>
+
+                    </>
+                )}
+
+            </CustomPopup>
         </>
     );
 };
