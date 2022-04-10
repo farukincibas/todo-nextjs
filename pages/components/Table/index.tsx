@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Tasks, ActionTypes } from '../../store/reducer';
 import { Context } from '../../store/context';
 import styles from '../../../styles/Table.module.css';
+import addTaskStyles from '../../../styles/AddTask.module.css';
 import { RiDeleteBin5Fill, RiEdit2Fill } from 'react-icons/ri';
 import CustomPopup from "../Popup";
 
@@ -14,6 +15,7 @@ const Table = () => {
     const [id, setId] = useState(0);
     const [name, setName] = useState('');
     const [priority, setPriority] = useState('');
+
 
     const popupCloseHandler = () => {
         setVisibility(false);
@@ -41,19 +43,26 @@ const Table = () => {
             popupCloseHandler();
         }
         else { alert("if you want to update it! Please provide name and urgent info..."); }
-       
+
     };
 
 
 
     const FilterableProductTable = ({ products }: any) => {
         const [filterText, setFilterText] = useState('');
+        const [priorityFilter, setPriorityFilter] = useState('all');
         return (
             <div>
-                <SearchBar
-                    filterText={filterText}
-                    setFilterText={setFilterText}
-                />
+                <div className={styles.colorBisque} >
+                    <div className={styles.flexRow}>
+                        <SearchBar
+                            filterText={filterText}
+                            setFilterText={setFilterText}
+                        />
+                        <FilterSelectBox setPriorityFilter={setPriorityFilter} />
+                    </div>
+
+                </div>
                 <ProductTable
                     products={products}
                     filterText={filterText}
@@ -62,9 +71,20 @@ const Table = () => {
         );
     }
 
+    const FilterSelectBox = ({ setPriorityFilter }: any) => (
+        <div className={addTaskStyles.flexColumOne}>
+            <select onChange={(e) => setPriorityFilter(e.target.value)} className={addTaskStyles.selectPriority} id="standard-select">
+                <option selected value="all">Priority(all)</option>
+                <option value="Urgent">Urgent</option>
+                <option value="Regular">Regular</option>
+                <option value="Trivial">Trivial</option>
+            </select>
+        </div>
+    )
+
 
     const SearchBar = ({ filterText, setFilterText }: any) => (
-        <form>
+        <form className={addTaskStyles.flexColumTwo}>
             <input
                 className={styles.taskInput}
                 type="text"

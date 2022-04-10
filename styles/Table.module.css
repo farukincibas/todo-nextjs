@@ -21,6 +21,19 @@
     text-align: left;
     padding: 12px;
   }
+
+  .taskTable th {
+    background-color: bisque;
+  }
+
+  .colorBisque{
+    padding-top: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 5px;
+    background-color: #f1d8bc;
+  }
+
   
   .taskTable tr {
     border-bottom: 1px solid #ddd;
@@ -55,3 +68,8 @@
     box-sizing: border-box;
   }
 
+  .flexRow {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
