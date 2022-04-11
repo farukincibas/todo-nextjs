@@ -14,7 +14,8 @@ const Table = () => {
     const [visibilityUpdate, setVisibilityUpdate] = useState(false);
     const [id, setId] = useState(0);
     const [name, setName] = useState('');
-    const [priority, setPriority] = useState('');
+    const [priority, setPriority] = useState('all');
+    const [importance, setImportance] = useState(0);
 
 
     const popupCloseHandler = () => {
@@ -31,14 +32,16 @@ const Table = () => {
 
 
 
-    const handleChange = ({ id, name, priority }: Tasks) => {
+    const handleChange = ({ id, name, priority, importance }: Tasks) => {
+
         const updateTask = {
             id: id,
             name: name,
             priority: priority,
+            importance: importance,
         };
 
-        if (name.length > 0 && priority.length > 0) {
+        if (name.length > 0 && priority!=="all") {
             dispatch({ type: ActionTypes.updateTask, payload: { ...updateTask } });
             popupCloseHandler();
         }
@@ -103,15 +106,12 @@ const Table = () => {
 
         switch (product.priority) {
             case 'Urgent':
-                console.log("It is a urgent.");
                 colorPriority = "red";
                 break;
             case 'Regular':
-                console.log("It is a regular.");
                 colorPriority = "rgb(229 229 20)";
                 break;
             case 'Trivial':
-                console.log("It is a trivial.");
                 colorPriority = "blue";
                 break;
             default:
@@ -128,7 +128,7 @@ const Table = () => {
                 <td>{product.name}</td>
                 <td><span style={priorityStyle}>{product.priority}</span></td>
                 <td>
-                    <button onClick={() => { setVisibility(true), setId(product.id); setVisibilityUpdate(true); }}>
+                    <button onClick={() => { setVisibility(true), setId(product.id); setVisibilityUpdate(true); setPriority('all'); }}>
                         <RiEdit2Fill />
                     </button>
                     {" "}
@@ -141,10 +141,36 @@ const Table = () => {
     }
 
 
+    const sortByUrgent = (products: any) => {
+        const sortedMinToMax = [...products].sort((a, b) => a.importance - b.importance);
+        return sortedMinToMax;
+    }
+
+    const handlePriorityValue = (priorityVal: React.SetStateAction<string>) => {
+        setPriority(priorityVal);
+        let importance: number = 0;
+        switch (priorityVal) {
+            case 'Urgent':
+                importance = 1;
+                break;
+            case 'Regular':
+                importance = 2;
+                break;
+            case 'Trivial':
+                importance = 3;
+                break;
+            default:
+                console.log("No such priority exists!");
+                break;
+        }
+        setImportance(importance);
+    }
+
     const ProductTable = ({ products, filterText, priorityFilter }: any) => {
         const rows: any = [];
+        let taskList = sortByUrgent(products);
 
-        products.forEach((product: any) => {
+        taskList.forEach((product: any) => {
             if (product.name.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
                 return;
             }
@@ -179,6 +205,7 @@ const Table = () => {
 
     return (
         <>
+            <h4>Job List</h4>
             <FilterableProductTable products={state}></FilterableProductTable>
             <CustomPopup
                 onClose={popupCloseHandler}
@@ -208,15 +235,15 @@ const Table = () => {
                             />
 
                             <label>Job Priority</label>
-                            <select onChange={(e) => setPriority(e.target.value)} className={styles.paddingElements} id="standard-select">
-                                <option disabled selected value="0">Choose</option>
+                            <select onChange={(e) => handlePriorityValue(e.target.value)} className={styles.paddingElements} id="standard-select">
+                                <option disabled selected value="all">Choose</option>
                                 <option value="Urgent">Urgent</option>
                                 <option value="Regular">Regular</option>
                                 <option value="Trivial">Trivial</option>
                             </select>
                             <div className={styles.flexRowPopup}>
                                 <button onClick={popupCloseHandler}>Cancel</button>
-                                <button onClick={(e) => handleChange({ id, name, priority })}>Save</button>
+                                <button onClick={(e) => handleChange({ id, name, priority, importance })}>Save</button>
                             </div>
                         </div>
 

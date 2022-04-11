@@ -3,6 +3,7 @@ export interface Tasks {
     id: number;
     name: string;
     priority: string;
+    importance:number;
 }
 
 //export const initialState: Tasks[] = JSON.parse(localStorage.getItem('tasks') || '[]');

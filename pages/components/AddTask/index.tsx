@@ -13,11 +13,27 @@ const AddTask: NextPage = () => {
 
     const handleAdd = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        let importance: number = 0;
+        switch (priority) {
+            case 'Urgent':
+                importance = 1;
+                break;
+            case 'Regular':
+                importance = 2;
+                break;
+            case 'Trivial':
+                importance = 3;
+                break;
+            default:
+                console.log("No such priority exists!");
+                break;
+        }
 
         const newTask = {
             id: Date.now(),
             name: name,
             priority: priority,
+            importance: importance,
         };
         if (name.length > 0 && priority.length > 0) {
             dispatch({ type: ActionTypes.addTask, payload: newTask });
@@ -49,6 +65,7 @@ const AddTask: NextPage = () => {
 
     return (
         <>
+            <h4>Create New Job</h4>
             <div className={styles.flexRow}>
 
                 <div className={styles.flexColumTwo}>
@@ -65,10 +82,11 @@ const AddTask: NextPage = () => {
                         <option value="Trivial">Trivial</option>
                     </select>
                 </div>
-
-                <button onClick={handleAdd} className={styles.addButton}>
-                    <FaPlusCircle /> Create
-                </button>
+                <div className={styles.flexColumThree}>
+                    <label style={{ visibility: 'hidden' }}>hidden</label>
+                    <button onClick={handleAdd} className={styles.buttonAdd}>
+                        <FaPlusCircle /> Create
+                    </button></div>
 
             </div>
         </>
