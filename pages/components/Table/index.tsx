@@ -41,7 +41,7 @@ const Table = () => {
             importance: importance,
         };
 
-        if (name.length > 0 && priority!=="all") {
+        if (name.length > 0 && priority !== "all") {
             dispatch({ type: ActionTypes.updateTask, payload: { ...updateTask } });
             popupCloseHandler();
         }
@@ -51,7 +51,7 @@ const Table = () => {
 
 
 
-    const FilterableProductTable = ({ products }: any) => {
+    const FilterableTaskTable = ({ tasks }: any) => {
         const [filterText, setFilterText] = useState('');
         const [priorityFilter, setPriorityFilter] = useState('all');
         return (
@@ -66,8 +66,8 @@ const Table = () => {
                     </div>
 
                 </div>
-                <ProductTable
-                    products={products}
+                <TaskTable
+                    tasks={tasks}
                     filterText={filterText}
                     priorityFilter={priorityFilter}
                 />
@@ -101,10 +101,10 @@ const Table = () => {
 
 
 
-    const ProductRow = ({ product }: any) => {
+    const TaskRow = ({ task }: any) => {
         let colorPriority: any = 'white';
 
-        switch (product.priority) {
+        switch (task.priority) {
             case 'Urgent':
                 colorPriority = "red";
                 break;
@@ -125,14 +125,14 @@ const Table = () => {
 
         return (
             <tr>
-                <td>{product.name}</td>
-                <td><span style={priorityStyle}>{product.priority}</span></td>
+                <td>{task.name}</td>
+                <td><span style={priorityStyle}>{task.priority}</span></td>
                 <td>
-                    <button onClick={() => { setVisibility(true), setId(product.id); setVisibilityUpdate(true); setPriority('all'); }}>
+                    <button onClick={() => { setVisibility(true), setId(task.id); setVisibilityUpdate(true); setPriority('all'); }}>
                         <RiEdit2Fill />
                     </button>
                     {" "}
-                    <button onClick={() => { setVisibility(true), setId(product.id); setVisibilityDelete(true); }}>
+                    <button onClick={() => { setVisibility(true), setId(task.id); setVisibilityDelete(true); }}>
                         <RiDeleteBin5Fill />
                     </button>
                 </td>
@@ -141,8 +141,8 @@ const Table = () => {
     }
 
 
-    const sortByUrgent = (products: any) => {
-        const sortedMinToMax = [...products].sort((a, b) => a.importance - b.importance);
+    const sortByUrgent = (tasks: any) => {
+        const sortedMinToMax = [...tasks].sort((a, b) => a.importance - b.importance);
         return sortedMinToMax;
     }
 
@@ -166,22 +166,22 @@ const Table = () => {
         setImportance(importance);
     }
 
-    const ProductTable = ({ products, filterText, priorityFilter }: any) => {
+    const TaskTable = ({ tasks, filterText, priorityFilter }: any) => {
         const rows: any = [];
-        let taskList = sortByUrgent(products);
+        let taskList = sortByUrgent(tasks);
 
-        taskList.forEach((product: any) => {
-            if (product.name.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
+        taskList.forEach((task: any) => {
+            if (task.name.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
                 return;
             }
-            if (product.priority.toLowerCase().indexOf(priorityFilter.toLowerCase()) === -1 && priorityFilter !== 'all') {
+            if (task.priority.toLowerCase().indexOf(priorityFilter.toLowerCase()) === -1 && priorityFilter !== 'all') {
                 return;
             }
 
             rows.push(
-                <ProductRow
-                    product={product}
-                    key={product.id} />
+                <TaskRow
+                    task={task}
+                    key={task.id} />
             );
         });
 
@@ -206,7 +206,7 @@ const Table = () => {
     return (
         <>
             <h4>Job List</h4>
-            <FilterableProductTable products={state}></FilterableProductTable>
+            <FilterableTaskTable tasks={state}></FilterableTaskTable>
             <CustomPopup
                 onClose={popupCloseHandler}
                 show={visibility}
