@@ -3,11 +3,11 @@
 
 First, install packages:
 
--npm i
+npm i
 
-First, run the development server:
+Second, run the development server:
 
--npm run dev
+npm run dev
 
 
 Özellikler:
@@ -17,9 +17,9 @@ First, run the development server:
 4. * Listedeki işlerin öncelik derecesine göre farklı renklerde gösterilmesi veya farklı renklerle işaretlenmiş
 olması.(DONE)
 a. * Listedeki işleri düzenleme özelliği.(DONE)
-i. Yalnızca önem derecesi değiştirebilir.
+i. Yalnızca önem derecesi değiştirebilir.(DONE)
 b. * Silme özelliği(DONE)
-i. Yalnızca onay verildiği takdirde silinir.
+i. Yalnızca onay verildiği takdirde silinir.(DONE)
 5. * Responsive desteği olmalı.(DONE)
 6. Oluşturulan iş kayıtları Web storage üzerinde bir alanda yönetilerek, tarayıcıyı kapatıp açtığında bile
 veriler ilgili tarayıcıda durmaya devam etmeli (HALF)
