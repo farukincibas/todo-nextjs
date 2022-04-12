@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 import ContextProvider from './store/ContextProvider';
 import Table from './components/Table';
 import AddTask from './components/AddTask';
+import Footer from './components/Footer';
 
 const Home: NextPage = () => {
   return (
@@ -14,9 +15,7 @@ const Home: NextPage = () => {
           <Table></Table>
         </main>
 
-        <footer className={styles.footer}>
-
-        </footer>
+        <Footer></Footer>
       </div>
     </ContextProvider>
 
